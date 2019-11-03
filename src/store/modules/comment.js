@@ -40,9 +40,19 @@ export default {
             }
             // console.log(page_data)
             let res = await post("/comment/query",page_data)
+                // let res = await post("/comment/findAll")
             if(res.status == 200){
                 context.commit("refreshComments",res.data)
                 // console.log(res)
+                return res
+            }else {
+                
+            }
+        },
+        async findAllCommentNoquery(context){
+            let res = await post("/comment/findAll")
+            if(res.status == 200){
+                context.commit("refreshComments",res.data)
                 return res
             }else {
                 

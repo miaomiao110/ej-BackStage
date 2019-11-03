@@ -30,7 +30,13 @@
         :data="comments.list" border @selection-change = "handleSelectionChange">
             <el-table-column type="selection" label="#" align="center" width="55px"></el-table-column>
             <el-table-column label="评论内容" prop="content" align="center"></el-table-column>
-            <!-- <el-table-column label="评论时间" prop="commentTime" align="center"></el-table-column> -->
+            <!-- <el-table-column label="评论时间" align="center">
+                <template #default="gettime">
+                    <div>
+                        {{$moment(gettime.row.commentTime).format("20"+"YY/MM/DD"+"   "+"HH:mm:ss")}}
+                    </div>
+                </template>
+            </el-table-column> -->
             <!-- <el-table-column label="订单ID" prop="orderId" align="center"></el-table-column> -->
             <!-- <el-table-column label="图片" prop="photo" align="center">
                 <template #default="bb">
@@ -145,6 +151,8 @@ export default {
         this.findAllComment(this.page_data)
         // this.findAllCategory({page:0,pageSize:99,name:""})
         this.findAllOrder()
+        //重置comment//
+        // this.findAllCommentNoquery()
         
         setTimeout(() => {
             this.total = this.comments.total
@@ -158,6 +166,7 @@ export default {
     },
     methods:{
         ...mapActions("comment",["findAllComment","modalVal","saveOrUpdate","deleteById","batchDelete","modifyTitle","backCall"]),
+        ...mapActions("comment",["findAllCommentNoquery"]), //不分页的查询
         ...mapActions("order",["findAllOrder"]),
         ...mapMutations("comment",[]),
 
@@ -190,6 +199,8 @@ export default {
         async submithandler(){
         this.$refs.commentForm.validate(async(valid) => {
           if (valid) {
+
+              this.form.commentTime = Date.now()
             await this.saveOrUpdate(this.form)
             await this.modalclose()
 

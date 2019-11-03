@@ -8,7 +8,12 @@
                     <el-table :data="orders">
                         <el-table-column type="selection" width="55" />
                         <el-table-column prop="id" label="编号" />
-                        <el-table-column prop="orderTime" label="下单时间" />
+                <el-table-column label="下单时间">
+                    <template #default="time">
+                        <div>{{$moment(time.row.orderTime).format("20"+"YY/MM/DD"+"   "+"HH:mm:ss")}}</div>
+                        <!-- moment(time.row.orderTime).format("20"+"YY/MM/DD"+"   "+"HH:mm:ss") -->
+                    </template>   
+                </el-table-column>
                         <el-table-column prop="total" label="总单数" />
                         <el-table-column prop="customerId" label="顾客ID" />
                         <el-table-column prop="waiterId" label="员工ID" />
@@ -21,7 +26,12 @@
                     <el-table :data="orders.filter(item=>item.status=='待派单'||item.status=='')">
                         <el-table-column type="selection" width="55" />
                         <el-table-column prop="id" label="编号" />
-                        <el-table-column prop="orderTime" label="下单时间" />
+                <el-table-column label="下单时间">
+                    <template #default="time">
+                        <div>{{$moment(time.row.orderTime).format("20"+"YY/MM/DD"+"   "+"HH:mm:ss")}}</div>
+                        <!-- moment(time.row.orderTime).format("20"+"YY/MM/DD"+"   "+"HH:mm:ss") -->
+                    </template>   
+                </el-table-column>
                         <el-table-column prop="total" label="总单数" />
                         <el-table-column prop="customerId" label="顾客ID" />
                         <el-table-column prop="waiterId" label="员工ID" />
@@ -39,7 +49,12 @@
                     <el-table :data="orders.filter(item=>item.status=='待接单')">
                         <el-table-column type="selection" width="55" />
                         <el-table-column prop="id" label="编号" />
-                        <el-table-column prop="orderTime" label="下单时间" />
+                <el-table-column label="下单时间">
+                    <template #default="time">
+                        <div>{{$moment(time.row.orderTime).format("20"+"YY/MM/DD"+"   "+"HH:mm:ss")}}</div>
+                        <!-- moment(time.row.orderTime).format("20"+"YY/MM/DD"+"   "+"HH:mm:ss") -->
+                    </template>   
+                </el-table-column>
                         <el-table-column prop="total" label="总单数" />
                         <el-table-column prop="customerId" label="顾客ID" />
                         <el-table-column prop="waiterId" label="员工ID" />
@@ -57,7 +72,12 @@
                     <el-table :data="orders.filter(item=>item.status=='待服务')">
                         <el-table-column type="selection" width="55" />
                         <el-table-column prop="id" label="编号" />
-                        <el-table-column prop="orderTime" label="下单时间" />
+                <el-table-column label="下单时间">
+                    <template #default="time">
+                        <div>{{$moment(time.row.orderTime).format("20"+"YY/MM/DD"+"   "+"HH:mm:ss")}}</div>
+                        <!-- moment(time.row.orderTime).format("20"+"YY/MM/DD"+"   "+"HH:mm:ss") -->
+                    </template>   
+                </el-table-column>
                         <el-table-column prop="total" label="总单数" />
                         <el-table-column prop="customerId" label="顾客ID" />
                         <el-table-column prop="waiterId" label="员工ID" />
@@ -70,7 +90,12 @@
                     <el-table :data="orders.filter(item=>item.status=='待确认')">
                         <el-table-column type="selection" width="55" />
                         <el-table-column prop="id" label="编号" />
-                        <el-table-column prop="orderTime" label="下单时间" />
+                <el-table-column label="下单时间">
+                    <template #default="time">
+                        <div>{{$moment(time.row.orderTime).format("20"+"YY/MM/DD"+"   "+"HH:mm:ss")}}</div>
+                        <!-- moment(time.row.orderTime).format("20"+"YY/MM/DD"+"   "+"HH:mm:ss") -->
+                    </template>   
+                </el-table-column>
                         <el-table-column prop="total" label="总单数" />
                         <el-table-column prop="customerId" label="顾客ID" />
                         <el-table-column prop="waiterId" label="员工ID" />
@@ -83,7 +108,12 @@
                     <el-table :data="orders.filter(item=>item.status=='已完成')">
                         <el-table-column type="selection" width="55" />
                         <el-table-column prop="id" label="编号" />
-                        <el-table-column prop="orderTime" label="下单时间" />
+                <el-table-column label="下单时间">
+                    <template #default="time">
+                        <div>{{$moment(time.row.orderTime).format("20"+"YY/MM/DD"+"   "+"HH:mm:ss")}}</div>
+                        <!-- moment(time.row.orderTime).format("20"+"YY/MM/DD"+"   "+"HH:mm:ss") -->
+                    </template>   
+                </el-table-column>
                         <el-table-column prop="total" label="总单数" />
                         <el-table-column prop="customerId" label="顾客ID" />
                         <el-table-column prop="waiterId" label="员工ID" />
@@ -99,7 +129,7 @@
                         <el-input disabled v-model="form.orderId" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="员工ID" prop="waiterId" label-width="100px">
-                        <el-input v-model="form.waiterId" autocomplete="off" placeholder="选择员工"></el-input>
+                        <el-input v-model="form.waiterId" autocomplete="off" placeholder="员工ID：29号/30号/31号"></el-input>
                     </el-form-item>
 
                 </el-form>
@@ -155,7 +185,7 @@ export default {
         modalval:false,
         form:{
             // orderId:new Number,
-            // waiterId: new Number
+            // waiterId: 26
         }
         }
     },
@@ -186,6 +216,7 @@ export default {
             this.form.orderId = orderId
         },
         submithandler(){
+            this.form.waiterId = this.form.waiterId||29
             this.sendOrder(this.form)
             .then((re)=>{
                 this.$message.success("派单成功")
